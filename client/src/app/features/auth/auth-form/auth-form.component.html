@@ -1,0 +1,21 @@
+<form [formGroup]="authForm" (submit)="submit()">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input formControlName="name" type="text" class="form-control" id="name" placeholder="Enter your name" required>
+    <div *ngIf="(name.touched || name.dirty) && name.invalid">
+      <div *ngIf="name.errors.required" class="invalid-feedback">
+        Please enter your name
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input formControlName="password" type="password" class="form-control" id="password" placeholder="Password">
+    <div *ngIf="(password.touched || password.dirty) && password.invalid">
+      <div *ngIf="password.errors.required" class="invalid-feedback">
+        Please enter your password
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

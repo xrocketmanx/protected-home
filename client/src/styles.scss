@@ -1,2 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/scss/bootstrap';
+
+.ng-dirty.ng-touched.ng-invalid {
+  border-color: $danger;
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220,53,69,.25);
+  }
+}
+
+.ng-dirty.ng-touched.ng-valid {
+  border-color: $success;
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(40,167,69,.25);
+  }
+}
+
+.invalid-feedback, .valid-feedback {
+  display: block;
+}

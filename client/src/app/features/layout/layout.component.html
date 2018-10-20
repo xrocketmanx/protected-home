@@ -1,0 +1,27 @@
+<div class="container">
+  <header>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+      <a routerLink="/" class="navbar-brand mb-0 h1">
+        Protected home
+      </a>
+      <div *ngIf="isLoggedIn()" class="collapse navbar-collapse">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link" routerLink="/spectate" routerLinkActive="active">Spectate</a>
+          <a class="nav-item nav-link" routerLink="/transmit" routerLinkActive="active">Transmit</a>
+        </div>
+        <div class="navbar-text text-light ml-auto">
+          Welcome {{ getUserName() }}
+          <button class="btn btn-secondary btn-sm ml-1" (click)="logout()">
+            Logout
+          </button>
+        </div>
+      </div>
+      <div *ngIf="!isLoggedIn()" class="navbar-text text-light ml-auto">
+        Anonymous
+      </div>
+    </nav>
+  </header>
+  <main>
+    <ng-content></ng-content>
+  </main>
+</div>

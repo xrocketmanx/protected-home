@@ -1,0 +1,9 @@
+<section class="row">
+  <div class="col-12 col-md-6 mx-auto my-5 bg-light border p-3">
+    <div class="text-right">
+      Dont have an account? <a routerLink="/register">Register</a>
+    </div>
+    <h4 class="h4 text-center">Login</h4>
+    <app-auth-form (userSubmit)="login($event)"></app-auth-form>
+  </div>
+</section>
