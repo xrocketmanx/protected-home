@@ -4,13 +4,16 @@ import { User } from './user.model';
 import { AUTH_STORAGE_KEY } from './auth.constants';
 import { Observable, of } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { getLoginUrl, getRegisterUrl } from '../../core/url-helper';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   constructor(
-    private sessionStorageService: SessionStorageService
+    private sessionStorageService: SessionStorageService,
+    private http: HttpClient
   ) { }
 
   private user: User;
@@ -34,9 +37,9 @@ export class AuthService {
   }
 
   public login(name: string, password: string): Observable<User> {
-    // TODO: real login
-    return of({ name, token: '12345', id: 1 }).pipe(
-      delay(1000),
+    const url: string = getLoginUrl();
+
+    return this.http.post(url, { user: { name, password } }).pipe(
       tap((user: User) => {
         this.user = user;
         this.sessionStorageService.set(AUTH_STORAGE_KEY, user);
@@ -45,9 +48,9 @@ export class AuthService {
   }
 
   public register(name: string, password: string): Observable<User> {
-    // TODO: real login
-    return of({ name, token: '12345', id: 1 }).pipe(
-      delay(1000),
+    const url: string = getRegisterUrl();
+
+    return this.http.post(url, { user: { name, password } }).pipe(
       tap((user: User) => {
         this.user = user;
         this.sessionStorageService.set(AUTH_STORAGE_KEY, user);

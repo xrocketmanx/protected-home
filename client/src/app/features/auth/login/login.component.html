@@ -4,6 +4,9 @@
       Dont have an account? <a routerLink="/register">Register</a>
     </div>
     <h4 class="h4 text-center">Login</h4>
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
     <app-auth-form (userSubmit)="login($event)"></app-auth-form>
   </div>
 </section>
