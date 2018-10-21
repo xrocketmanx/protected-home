@@ -1,14 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
-    NotFoundComponent
+    NotFoundComponent,
+    BreadcrumbComponent
   ],
-  declarations: [NotFoundComponent]
+  declarations: [NotFoundComponent, BreadcrumbComponent]
 })
 export class SharedModule { }

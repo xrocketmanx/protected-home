@@ -1,16 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DevicesComponent } from './devices/devices.component';
-import { DeviceTransmissionComponent } from './device-transmission/device-transmission.component';
+import { DeviceStreamingComponent } from './device-streaming/device-streaming.component';
+import { RouterModule } from '@angular/router';
+import { SharedModule } from '../../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    SharedModule
   ],
   exports: [
     DevicesComponent,
-    DeviceTransmissionComponent
+    DeviceStreamingComponent
   ],
-  declarations: [DevicesComponent, DeviceTransmissionComponent]
+  declarations: [DevicesComponent, DeviceStreamingComponent]
 })
 export class DeviceModule { }

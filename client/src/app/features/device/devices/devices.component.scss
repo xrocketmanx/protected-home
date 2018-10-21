@@ -1,0 +1,10 @@
+.device-card {
+  position: relative;
+
+  &__delete-icon {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    cursor: pointer;
+  }
+}

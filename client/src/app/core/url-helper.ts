@@ -13,3 +13,7 @@ export const getRegisterUrl = (): string => {
 export const getDevicesUrl = (): string => {
   return `${API_BASE_URL}/devices/`;
 };
+
+export const getDeviceUrl = (id: number): string => {
+  return `${API_BASE_URL}/devices/${id}`;
+};

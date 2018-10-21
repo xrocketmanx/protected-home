@@ -5,6 +5,18 @@ const auth = require('./auth');
 
 const router = express.Router();
 
+router.get('/:id', auth.required, (req, res, next) => {
+  const { params: { id } } = req;
+
+  return db.deviceStorage.getById(id).then(device => res.json(device));
+});
+
+router.get('/', auth.required, (req, res, next) => {
+  const { payload: { id } } = req;
+
+  return db.deviceStorage.getByUserId(id).then(devices => res.json({ devices }));
+});
+
 router.post('/', auth.required, (req, res, next) => {
   const { body: { device }, payload: { id } } = req;
 
@@ -25,12 +37,6 @@ router.delete('/:id', auth.required, (req, res, next) => {
   const { params: { id } } = req;
 
   return db.deviceStorage.remove(id).then(() => res.sendStatus(204));
-});
-
-router.get('/', auth.required, (req, res, next) => {
-  const { payload: { id } } = req;
-
-  return db.deviceStorage.getByUserId(id).then(devices => res.json({ devices }));
 });
 
 module.exports = router;

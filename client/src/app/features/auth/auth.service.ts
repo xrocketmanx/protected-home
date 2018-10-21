@@ -30,7 +30,7 @@ export class AuthService {
     return this.user;
   }
 
-  public logout(): Observable<null> {
+  public logout(): Observable<void> {
     this.user = null;
     this.sessionStorageService.remove(AUTH_STORAGE_KEY);
     return of(null);

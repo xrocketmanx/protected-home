@@ -2,6 +2,7 @@ const Device = require('../models/device');
 
 const QUERIES = {
   getDevicesByUserQuery: 'SELECT * FROM Device WHERE user_id = ?',
+  getDevicesByIdQuery: 'SELECT * FROM Device WHERE id = ?',
   insertDeviceQuery: 'INSERT INTO Device (name,user_id) VALUES (?,?)',
   deleteDeviceQuery: 'DELETE FROM Device WHERE id = ?'
 };
@@ -19,6 +20,18 @@ class DeviceStorage {
           reject(err);
         } else {
           resolve(rows.map(this.rowToDevice));
+        }
+      });
+    });
+  }
+
+  getById(id) {
+    return new Promise((resolve, reject) => {
+      this.db.get(QUERIES.getDevicesByIdQuery, id, (err, row) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(this.rowToDevice(row));
         }
       });
     });
