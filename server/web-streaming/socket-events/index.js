@@ -28,7 +28,7 @@ class SocketEvents {
             break;
           }
           case EVENT_TYPES.ACTION: {
-            this.lobby.broadcast(socket, event.room, JSON.stringify(event.action));
+            this.lobby.broadcast(socket, event.room, message);
             break;
           }
         }

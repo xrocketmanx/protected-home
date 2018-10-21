@@ -1,3 +1,14 @@
-<p>
-  spectator works!
-</p>
+<section>
+  <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+  <h1 class="h1 text-center">Spectator mode</h1>
+  <p *ngIf="!devices.length" class="lead">
+    Currently you have no registered devices.
+  </p>
+  <div *ngIf="devices.length">
+    <div class="row">
+      <div class="col-sm-6" *ngFor="let device of devices">
+        <app-device-stream-capture [device]="device"></app-device-stream-capture>
+      </div>
+    </div>
+  </div>
+</section>

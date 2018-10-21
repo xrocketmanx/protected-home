@@ -13,13 +13,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './features/auth/auth.interceptor';
 import { DeviceModule } from './features/device/device.module';
+import { DeviceStreamCaptureComponent } from './features/spectator/device-stream-capture/device-stream-capture.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
     HomeComponent,
-    SpectatorComponent
+    SpectatorComponent,
+    DeviceStreamCaptureComponent
   ],
   imports: [
     BrowserModule,

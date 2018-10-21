@@ -5,8 +5,10 @@ export enum SocketEventType {
 }
 
 export class SocketAction {
-  type: string;
-  payload?: any;
+  constructor(
+    public type: string,
+    public payload?: any
+  ) {}
 }
 
 export class SocketEvent {

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DevicesService } from '../device/devices.service';
+import { Device } from '../device/device.model';
+import { Subscription } from 'rxjs';
+import { BreadcrumbItem } from '../../shared/breadcrumb/breadcrumb-item.model';
 
 @Component({
   selector: 'app-spectator',
@@ -7,9 +11,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SpectatorComponent implements OnInit {
 
-  constructor() { }
+  public breadcrumbItems: BreadcrumbItem[] = [{ label: 'Spectate' }];
+  public devices: Device[] = [];
 
-  ngOnInit() {
+  private subscriptions: Subscription = new Subscription();
+
+  constructor(
+    private devicesService: DevicesService
+  ) { }
+
+  public ngOnInit(): void {
+    const sub: Subscription = this.devicesService.getDevices().subscribe((devices: Device[]) => {
+      this.devices = devices;
+    });
+    this.subscriptions.add(sub);
   }
 
 }

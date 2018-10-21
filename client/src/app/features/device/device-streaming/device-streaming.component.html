@@ -1,3 +1,9 @@
 <section>
   <app-breadcrumb [items]="breadcrumbItems"></app-breadcrumb>
+  <div *ngIf="socketStream">
+    <h1 class="h1 text-center">Streaming from <span class="text-success">{{ device?.name }}</span></h1>
+    <section class="d-flex">
+      <app-stream class="img-thumbnail m-auto" [height]="360" (frame)="sendFrame($event)"></app-stream>
+    </section>
+  </div>
 </section>
