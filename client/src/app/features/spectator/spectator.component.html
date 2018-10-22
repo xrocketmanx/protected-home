@@ -5,9 +5,57 @@
     Currently you have no registered devices.
   </p>
   <div *ngIf="devices.length">
+    <div class="border p-2 my-2">
+      <span class="text-primary font-weight-bold mr-1">Filters: </span>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          id="grayScaleImageFilter"
+          name="imageFilter"
+          class="custom-control-input"
+          [(ngModel)]="imageFilter"
+          [value]="ImageFilter.GRAY_SCALE"
+        >
+        <label class="custom-control-label" for="grayScaleImageFilter">Gray scale</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          id="blurImageFilter"
+          name="imageFilter"
+          class="custom-control-input"
+          [(ngModel)]="imageFilter"
+          [value]="ImageFilter.BLUR"
+        >
+        <label class="custom-control-label" for="blurImageFilter">Blur</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          id="invertImageFilter"
+          name="imageFilter"
+          class="custom-control-input"
+          [(ngModel)]="imageFilter"
+          [value]="ImageFilter.INVERT"
+        >
+        <label class="custom-control-label" for="invertImageFilter">Invert</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input
+          type="radio"
+          id="securityImageFilter"
+          name="imageFilter"
+          class="custom-control-input"
+          [(ngModel)]="imageFilter"
+          [value]="ImageFilter.SECURITY"
+        >
+        <label class="custom-control-label" for="securityImageFilter">Security</label>
+      </div>
+      <i *ngIf="imageFilter" class="fas fa-times text-danger" (click)="clearFilter()"></i>
+    </div>
     <div class="row">
       <div class="col-sm-6" *ngFor="let device of devices">
-        <app-device-stream-capture [device]="device"></app-device-stream-capture>
+        <app-device-stream-capture [imageFilter]="imageFilter" [device]="device"></app-device-stream-capture>
       </div>
     </div>
   </div>

@@ -1,5 +1,12 @@
 <div class="card text-center">
-  <app-stream-capture *ngIf="isStreaming" class="card-img-top"  [frames$]="frames$"></app-stream-capture>
+  <app-stream-capture
+    *ngIf="isStreaming"
+    class="card-img-top"
+    [width]="480"
+    [height]="360"
+    [imageFilter]="imageFilter"
+    [frames$]="frames$"
+  ></app-stream-capture>
   <div *ngIf="!isStreaming" class="card-img-top bg-secondary d-flex placeholder">
     <i class="fas fa-times-circle fa-3x m-auto"></i>
   </div>

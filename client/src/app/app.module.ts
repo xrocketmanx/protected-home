@@ -9,7 +9,7 @@ import { CoreModule } from './core/core.module';
 import { LayoutComponent } from './features/layout/layout.component';
 import { HomeComponent } from './features/home/home.component';
 import { SpectatorComponent } from './features/spectator/spectator.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './features/auth/auth.interceptor';
 import { DeviceModule } from './features/device/device.module';
@@ -27,6 +27,7 @@ import { DeviceStreamCaptureComponent } from './features/spectator/device-stream
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     SharedModule,
     CoreModule,
