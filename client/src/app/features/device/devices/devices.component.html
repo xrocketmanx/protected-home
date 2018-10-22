@@ -21,15 +21,17 @@
     </div>
   </div>
   <p class="lead mt-4">Add new device:</p>
-  <div class="w-25">
-    <div class="card bg-light device-card">
-      <form class="card-body text-center" [formGroup]="deviceForm" (submit)="addDevice()">
-        <div class="form-group">
-          <label for="device-name">Device name</label>
-          <input formControlName="name" class="form-control" type="text" id="device-name">
-        </div>
-        <input class="btn btn-primary" type="submit" value="Add">
-      </form>
+  <div class="row">
+    <div class="col-12 col-sm-3">
+      <div class="card bg-light device-card">
+        <form class="card-body text-center" [formGroup]="deviceForm" (submit)="addDevice()">
+          <div class="form-group">
+            <label for="device-name">Device name</label>
+            <input formControlName="name" class="form-control" type="text" id="device-name">
+          </div>
+          <input class="btn btn-primary" type="submit" value="Add">
+        </form>
+      </div>
     </div>
   </div>
 </section>

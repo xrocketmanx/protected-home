@@ -9,7 +9,7 @@
           <a class="nav-item nav-link" routerLink="/spectate" routerLinkActive="active">Spectate</a>
           <a class="nav-item nav-link" routerLink="/devices" routerLinkActive="active">Devices</a>
         </div>
-        <div class="navbar-text text-light ml-auto">
+        <div class="navbar-text text-light ml-auto d-none d-sm-inline-block">
           Welcome {{ getUserName() }}
           <button class="btn btn-secondary btn-sm ml-1" (click)="logout()">
             Logout
