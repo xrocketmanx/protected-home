@@ -10,7 +10,7 @@ import { User } from '../../auth/user.model';
 import { SocketEventsService } from '../../../core/socket-events.service';
 import { SocketStream } from '../../../core/socket-stream';
 import { SOCKET_URL } from '../../../url.constants';
-import { FrameAction } from '../../../shared/stream/stream-actions.model';
+import { FrameAction, ReadyToCaptureAction, StreamStateChangedAction } from '../../../shared/stream/stream-actions.model';
 
 @Component({
   selector: 'app-device-streaming',
@@ -43,16 +43,29 @@ export class DeviceStreamingComponent implements OnInit, OnDestroy {
           this.devicesService.getDevice(params.id),
           this.socketEventsService.open(SOCKET_URL, room)
         ]);
+      }),
+      mergeMap(([device, socketStream]: [Device, SocketStream]) => {
+        this.breadcrumbItems = [{label: 'Devices', url: '/devices'}, {label: device.name}];
+        this.device = device;
+        this.socketStream = socketStream;
+
+        // Notify that streaming begins
+        this.socketStream.emit(new StreamStateChangedAction(true));
+
+        return this.socketStream.on<void>(ReadyToCaptureAction.type);
       })
-    ).subscribe(([device, socketStream]: [Device, SocketStream]) => {
-      this.breadcrumbItems = [{label: 'Devices', url: '/devices'}, {label: device.name}];
-      this.device = device;
-      this.socketStream = socketStream;
+    ).subscribe(() => {
+      // Notify joined spectators that stream is going
+      this.socketStream.emit(new StreamStateChangedAction(true));
     });
+
     this.subscriptions.add(sub);
   }
 
   public ngOnDestroy(): void {
+    // Notify that streaming ends
+    this.socketStream.emit(new StreamStateChangedAction(false));
+
     this.subscriptions.unsubscribe();
     if (this.socketStream) {
       this.socketStream.close();

@@ -4,10 +4,10 @@ import { SocketEventsService } from '../../../core/socket-events.service';
 import { SOCKET_URL } from '../../../url.constants';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/user.model';
-import { mergeMap, share} from 'rxjs/operators';
 import { SocketStream } from '../../../core/socket-stream';
-import { Observable } from 'rxjs';
-import { FrameAction } from '../../../shared/stream/stream-actions.model';
+import { Observable, Subscription } from 'rxjs';
+import { FrameAction, ReadyToCaptureAction, StreamStateChangedAction } from '../../../shared/stream/stream-actions.model';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-device-stream-capture',
@@ -20,8 +20,9 @@ export class DeviceStreamCaptureComponent implements OnInit, OnDestroy {
 
   public stream: SocketStream;
   public frames$: Observable<string>;
-  // TODO: Implement logic for check if streaming is going
-  public isStreaming = true;
+  public isStreaming = false;
+
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private socketEventsService: SocketEventsService,
@@ -33,16 +34,25 @@ export class DeviceStreamCaptureComponent implements OnInit, OnDestroy {
     const user: User = this.authService.getUser();
     const room = `${user.id}:${this.device.id}`;
 
-    this.frames$ = this.socketEventsService.open(SOCKET_URL, room).pipe(
-      mergeMap((stream: SocketStream) => {
+    const socketSub: Subscription = this.socketEventsService.open(SOCKET_URL, room)
+      .subscribe((stream: SocketStream) => {
         this.stream = stream;
-        return this.stream.on<string>(FrameAction.type);
-      }),
-      share()
-    );
+
+        this.stream.emit(new ReadyToCaptureAction());
+        const streamSub: Subscription = this.stream.on<boolean>(StreamStateChangedAction.type)
+          .subscribe(isStreaming => {
+            this.isStreaming = isStreaming;
+          });
+        this.subscriptions.add(streamSub);
+
+        this.frames$ = this.stream.on<string>(FrameAction.type);
+      });
+
+    this.subscriptions.add(socketSub);
   }
 
   public ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
     if (this.stream) {
       this.stream.close();
     }
