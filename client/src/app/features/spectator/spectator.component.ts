@@ -14,7 +14,16 @@ export class SpectatorComponent implements OnInit {
 
   public breadcrumbItems: BreadcrumbItem[] = [{ label: 'Spectate' }];
   public devices: Device[] = [];
-  public imageConfig: ImageConfig = { brightness: 0, contrast: 0, filter: null };
+  public imageConfig: ImageConfig = {
+    brightness: 0,
+    contrast: 0,
+    filter: null,
+    motionDetection: {
+      enabled: false,
+      threshold: 100,
+      checkDensity: 100
+    }
+  };
   public ImageFilter: typeof ImageFilter = ImageFilter;
 
   private subscriptions: Subscription = new Subscription();

@@ -53,6 +53,10 @@
         <span class="text-primary"> {{ imageConfig.contrast }}%</span>
         <input type="range" min="-100" max="100" step="1" class="custom-range" id="contrast" [(ngModel)]="imageConfig.contrast">
       </div>
+      <div class="w-25 mt-2 custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" id="motion-detection" [(ngModel)]="imageConfig.motionDetection.enabled">
+        <label class="custom-control-label" for="motion-detection">Enable motion detection</label>
+      </div>
     </div>
     <div class="row">
       <div class="col-sm-6" *ngFor="let device of devices">

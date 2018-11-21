@@ -1,4 +1,4 @@
-<div class="card text-center">
+<div class="card text-center" [ngClass]="{'device_motion-detected': motionDetected}">
   <app-stream-capture
     *ngIf="isStreaming"
     class="card-img-top"
@@ -6,6 +6,7 @@
     [height]="360"
     [imageConfig]="imageConfig"
     [frames$]="frames$"
+    (motion)="onMotion()"
   ></app-stream-capture>
   <div *ngIf="!isStreaming" class="card-img-top bg-secondary d-flex placeholder">
     <i class="fas fa-times-circle fa-3x m-auto"></i>

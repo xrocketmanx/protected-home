@@ -22,8 +22,10 @@ export class DeviceStreamCaptureComponent implements OnInit, OnDestroy {
   public stream: SocketStream;
   public frames$: Observable<string>;
   public isStreaming = false;
+  public motionDetected = false;
 
   private subscriptions: Subscription = new Subscription();
+  private motionDetectionTimeout;
 
   constructor(
     private socketEventsService: SocketEventsService,
@@ -59,4 +61,12 @@ export class DeviceStreamCaptureComponent implements OnInit, OnDestroy {
     }
   }
 
+  public onMotion(): void {
+    this.motionDetected = true;
+    clearTimeout(this.motionDetectionTimeout);
+
+    this.motionDetectionTimeout = setTimeout(() => {
+      this.motionDetected = false;
+    }, 1000);
+  }
 }
