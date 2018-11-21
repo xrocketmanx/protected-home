@@ -39,14 +39,15 @@ export class StreamCaptureComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     private webDspService: WebDspService
-  ) { }
+  ) {
+  }
 
   public ngAfterViewInit(): void {
     const sub: Subscription = this.webDspService.getWebDsp().pipe(
       tap((webDsp) => this.webDsp = webDsp),
       mergeMapTo(this.frames$)
     ).subscribe((frame: string) => {
-      if (this.imageConfig.filter) {
+      if (this.imageConfig.filter || this.imageConfig.contrast || this.imageConfig.brightness) {
         this.hiddenImage.src = frame;
       } else {
         this.image.src = frame;
@@ -61,9 +62,20 @@ export class StreamCaptureComponent implements AfterViewInit, OnDestroy {
   }
 
   public applyFilter(): void {
+    const {brightness, contrast} = this.imageConfig;
+
     const context: CanvasRenderingContext2D = this.canvas.getContext('2d');
     context.drawImage(this.hiddenImage, 0, 0, this.width, this.height);
     const pixels: ImageData = context.getImageData(0, 0, this.width, this.height);
+
+    if (brightness) {
+      this.brighten(pixels, brightness);
+    }
+
+    if (contrast) {
+      this.contrast(pixels, contrast);
+    }
+
     context.putImageData(this.transformPixels(pixels), 0, 0);
 
     this.image.src = this.canvas.toDataURL();
@@ -85,4 +97,25 @@ export class StreamCaptureComponent implements AfterViewInit, OnDestroy {
     return pixels;
   }
 
+  private brighten(pixels: ImageData, value: number): void {
+    const data: Uint8ClampedArray = pixels.data;
+
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] += value;
+      data[i + 1] += value;
+      data[i + 2] += value;
+    }
+  }
+
+  private contrast(pixels: ImageData, value: number): void {
+    const data: Uint8ClampedArray = pixels.data;
+    const contrast = (value / 100) + 1;
+    const intercept = 128 * (1 - contrast);
+
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] = data[i] * contrast + intercept;
+      data[i + 1] = data[i + 1] * contrast + intercept;
+      data[i + 2] = data[i + 2] * contrast + intercept;
+    }
+  }
 }

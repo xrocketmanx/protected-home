@@ -46,12 +46,12 @@
       <div class="w-25 mt-2">
         <label for="brightness">Brightness:</label>
         <span class="text-primary"> {{ imageConfig.brightness }}%</span>
-        <input type="range" min="0" max="100" step="1" class="custom-range" id="brightness" [(ngModel)]="imageConfig.brightness">
+        <input type="range" min="-100" max="100" step="1" class="custom-range" id="brightness" [(ngModel)]="imageConfig.brightness">
       </div>
       <div class="w-25 mt-2">
         <label for="contrast">Contrast:</label>
         <span class="text-primary"> {{ imageConfig.contrast }}%</span>
-        <input type="range" min="0" max="100" step="1" class="custom-range" id="contrast" [(ngModel)]="imageConfig.contrast">
+        <input type="range" min="-100" max="100" step="1" class="custom-range" id="contrast" [(ngModel)]="imageConfig.contrast">
       </div>
     </div>
     <div class="row">
