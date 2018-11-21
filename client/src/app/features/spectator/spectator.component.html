@@ -41,17 +41,6 @@
           >
           <label class="custom-control-label" for="invertImageFilter">Invert</label>
         </div>
-        <div class="custom-control custom-radio custom-control-inline">
-          <input
-            type="radio"
-            id="securityImageFilter"
-            name="imageFilter"
-            class="custom-control-input"
-            [(ngModel)]="imageConfig.filter"
-            [value]="ImageFilter.SECURITY"
-          >
-          <label class="custom-control-label" for="securityImageFilter">Security</label>
-        </div>
         <i *ngIf="imageConfig.filter" class="fas fa-times text-danger" (click)="clearFilter()"></i>
       </div>
       <div class="w-25 mt-2">

@@ -80,9 +80,6 @@ export class StreamCaptureComponent implements AfterViewInit, OnDestroy {
       case ImageFilter.INVERT:
         pixels.data.set(this.webDsp.invert(pixels.data));
         break;
-      case ImageFilter.SECURITY:
-        pixels.data.set(this.webDsp.security(pixels.data, this.width));
-        break;
     }
 
     return pixels;
