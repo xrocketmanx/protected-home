@@ -7,7 +7,7 @@ import { User } from '../../auth/user.model';
 import { SocketStream } from '../../../core/socket-stream';
 import { Observable, Subscription } from 'rxjs';
 import { FrameAction, ReadyToCaptureAction, StreamStateChangedAction } from '../../../shared/stream/stream-actions.model';
-import { ImageFilter } from '../../../shared/stream/image-filter.enum';
+import { ImageConfig } from '../../../shared/stream/image-filter.enum';
 
 @Component({
   selector: 'app-device-stream-capture',
@@ -17,7 +17,7 @@ import { ImageFilter } from '../../../shared/stream/image-filter.enum';
 export class DeviceStreamCaptureComponent implements OnInit, OnDestroy {
 
   @Input() device: Device;
-  @Input() imageFilter: ImageFilter;
+  @Input() imageConfig: ImageConfig;
 
   public stream: SocketStream;
   public frames$: Observable<string>;

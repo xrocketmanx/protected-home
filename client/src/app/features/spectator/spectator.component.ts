@@ -3,7 +3,7 @@ import { DevicesService } from '../device/devices.service';
 import { Device } from '../device/device.model';
 import { Subscription } from 'rxjs';
 import { BreadcrumbItem } from '../../shared/breadcrumb/breadcrumb-item.model';
-import { ImageFilter } from '../../shared/stream/image-filter.enum';
+import { ImageConfig, ImageFilter } from '../../shared/stream/image-filter.enum';
 
 @Component({
   selector: 'app-spectator',
@@ -14,7 +14,7 @@ export class SpectatorComponent implements OnInit {
 
   public breadcrumbItems: BreadcrumbItem[] = [{ label: 'Spectate' }];
   public devices: Device[] = [];
-  public imageFilter: ImageFilter;
+  public imageConfig: ImageConfig = { brightness: 50, contrast: 50, filter: null };
   public ImageFilter: typeof ImageFilter = ImageFilter;
 
   private subscriptions: Subscription = new Subscription();
@@ -31,7 +31,7 @@ export class SpectatorComponent implements OnInit {
   }
 
   public clearFilter(): void {
-    this.imageFilter = null;
+    this.imageConfig.filter = null;
   }
 
 }

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { ImageFilter } from './image-filter.enum';
+import { ImageConfig, ImageFilter } from './image-filter.enum';
 import { WebDspService } from '../../core/web-dsp.service';
 import { mergeMapTo, tap } from 'rxjs/operators';
 
@@ -13,7 +13,7 @@ export class StreamCaptureComponent implements AfterViewInit, OnDestroy {
   @Input() width: number;
   @Input() height: number;
   @Input() frames$: Observable<string>;
-  @Input() imageFilter: ImageFilter;
+  @Input() imageConfig: ImageConfig;
 
   @ViewChild('image')
   set imageSetter(el: ElementRef<HTMLImageElement>) {
@@ -46,7 +46,7 @@ export class StreamCaptureComponent implements AfterViewInit, OnDestroy {
       tap((webDsp) => this.webDsp = webDsp),
       mergeMapTo(this.frames$)
     ).subscribe((frame: string) => {
-      if (this.imageFilter) {
+      if (this.imageConfig.filter) {
         this.hiddenImage.src = frame;
       } else {
         this.image.src = frame;
@@ -70,7 +70,7 @@ export class StreamCaptureComponent implements AfterViewInit, OnDestroy {
   }
 
   private transformPixels(pixels: ImageData): ImageData {
-    switch (this.imageFilter) {
+    switch (this.imageConfig.filter) {
       case ImageFilter.GRAY_SCALE:
         pixels.data.set(this.webDsp.grayScale(pixels.data));
         break;
