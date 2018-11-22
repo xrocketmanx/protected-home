@@ -8,6 +8,7 @@ import { SocketStream } from '../../../core/socket-stream';
 import { Observable, Subscription } from 'rxjs';
 import { FrameAction, ReadyToCaptureAction, StreamStateChangedAction } from '../../../shared/stream/stream-actions.model';
 import { ImageConfig } from '../../../shared/stream/image-filter.enum';
+import { BrowserNotificationsService } from '../../../core/browser-notifications.service';
 
 @Component({
   selector: 'app-device-stream-capture',
@@ -29,7 +30,8 @@ export class DeviceStreamCaptureComponent implements OnInit, OnDestroy {
 
   constructor(
     private socketEventsService: SocketEventsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private browserNotificationsService: BrowserNotificationsService
   ) {
   }
 
@@ -62,9 +64,14 @@ export class DeviceStreamCaptureComponent implements OnInit, OnDestroy {
   }
 
   public onMotion(): void {
-    this.motionDetected = true;
-    clearTimeout(this.motionDetectionTimeout);
+    if (!this.motionDetected) {
+      this.motionDetected = true;
+      this.browserNotificationsService.push('ProtectedHome', {
+        body: `We have detected motion on ${this.device.name} device.`
+      });
+    }
 
+    clearTimeout(this.motionDetectionTimeout);
     this.motionDetectionTimeout = setTimeout(() => {
       this.motionDetected = false;
     }, 1000);

@@ -4,6 +4,7 @@ import { Device } from '../device/device.model';
 import { Subscription } from 'rxjs';
 import { BreadcrumbItem } from '../../shared/breadcrumb/breadcrumb-item.model';
 import { ImageConfig, ImageFilter } from '../../shared/stream/image-filter.enum';
+import { BrowserNotificationsService } from '../../core/browser-notifications.service';
 
 @Component({
   selector: 'app-spectator',
@@ -29,10 +30,13 @@ export class SpectatorComponent implements OnInit {
   private subscriptions: Subscription = new Subscription();
 
   constructor(
-    private devicesService: DevicesService
+    private devicesService: DevicesService,
+    private browserNotificationsService: BrowserNotificationsService
   ) { }
 
   public ngOnInit(): void {
+    this.browserNotificationsService.requestPermission();
+
     const sub: Subscription = this.devicesService.getDevices().subscribe((devices: Device[]) => {
       this.devices = devices;
     });
