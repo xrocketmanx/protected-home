@@ -10,7 +10,34 @@ extern "C" {
     return (arr[((width * y) + x)]);
   }
 
-//start filters below
+  //start filters below
+  void brighten (unsigned char* data, int len, int brightness) {
+    for (int i = 0; i < len; i += 4) {
+      data[i]   + brightness > 255 ? 255 : data[i]   += brightness;
+      data[i+1] + brightness > 255 ? 255 : data[i+1] += brightness;
+      data[i+2] + brightness > 255 ? 255 : data[i+2] += brightness;
+    }
+  }
+  void contrast(unsigned char* data, int len, int value) {
+    const contrast = (value / 100) + 1;
+    const intercept = 128 * (1 - contrast);
+
+    for (int i = 0; i < len; i += 4) {
+      data[i] = data[i] * contrast + intercept;
+      data[i + 1] = data[i + 1] * contrast + intercept;
+      data[i + 2] = data[i + 2] * contrast + intercept;
+    }
+  }
+  bool checkMotion(unsigned char* data, unsigned char* prevData, int len, int threshold, int density) {
+    for (int i = 0; i < len; i += 4 * density) {
+      int redChannel = data[i];
+      if (prevData[i] && abs(prevData[i] - redChannel) > threshold) {
+        return true;
+      }
+    }
+
+    return false;
+  }
   void grayScale (unsigned char* data, int len) {
     for (int i = 0; i < len; i += 4) {
       int r = data[i];
@@ -23,13 +50,6 @@ extern "C" {
       data[i+1] = r;
       data[i+2] = r;
       data[i+3] = a;
-    }
-  }
-  void brighten (unsigned char* data, int len, int brightness) {
-    for (int i = 0; i < len; i += 4) {
-      data[i]   + brightness > 255 ? 255 : data[i]   += brightness;
-      data[i+1] + brightness > 255 ? 255 : data[i+1] += brightness;
-      data[i+2] + brightness > 255 ? 255 : data[i+2] += brightness;
     }
   }
   void invert (unsigned char* data, int len) {
